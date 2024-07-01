@@ -11,7 +11,6 @@ export const HeartIcon: React.FC<Props> = (props) => {
   const { fill, stroke, height, width } = props;
   return (
     <svg
-      //   fill={stroke || "transparent"}
       height={`${height}px`}
       width={`${width}px`}
       version="1.1"
