@@ -1,2 +1,3 @@
 # playgrounds
-A collection of super-small projects across different languages.
+
+A collection of super-small projects across different languages and frameworks.
