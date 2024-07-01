@@ -1,28 +1,47 @@
-import React, { useCallback, useState } from "react";
+import React, { Reducer, useCallback, useReducer } from "react";
 import "./App.css";
 import { HeartIcon } from "./HeartIcon";
+import { useLikes } from "./hooks/useLikes";
+import { mockedApiCall } from "./api";
+
+const likedReducer: Reducer<{ liked: boolean; likeCount: number }, boolean> = (
+  state,
+  liked
+) => {
+  const { likeCount } = state;
+  if (liked === state.liked) {
+    return state;
+  }
+  return {
+    liked,
+    likeCount: liked ? likeCount + 1 : likeCount - 1,
+  };
+};
 
 const App: React.FC<{}> = () => {
-  const [state, setState] = useState({
+  const [state, dispatchLiked] = useReducer(likedReducer, {
     liked: false,
     likeCount: 0,
   });
 
   const { liked, likeCount } = state;
 
+  const [pushToLikeQueue] = useLikes({
+    setLikedState: dispatchLiked,
+    postId: 1,
+    async mutate(postId, liked) {
+      return await mockedApiCall(postId, liked);
+    },
+  });
   const like = useCallback(() => {
-    setState((prevState) => ({
-      liked: true,
-      likeCount: prevState.likeCount + 1,
-    }));
-  }, []);
+    dispatchLiked(true);
+    pushToLikeQueue("like");
+  }, [pushToLikeQueue]);
 
   const dislike = useCallback(() => {
-    setState((prevState) => ({
-      liked: false,
-      likeCount: prevState.likeCount - 1,
-    }));
-  }, []);
+    dispatchLiked(false);
+    pushToLikeQueue("dislike");
+  }, [pushToLikeQueue]);
 
   const onClick = useCallback(() => {
     if (liked) {
