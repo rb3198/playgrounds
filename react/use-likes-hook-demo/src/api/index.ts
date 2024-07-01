@@ -1,8 +1,9 @@
 const API_DELAY = 500;
-const responses = [true, true, false, true, true];
+const responses = [true, true, true, true, false];
 let idx = 0;
 const postLikeMapping = new Map<number, boolean>();
 export const mockedApiCall = async (postId: number, liked: boolean) => {
+  console.log("API Called.");
   // Fake delay
   await new Promise((resolve) => setTimeout(resolve, API_DELAY));
   if (!postLikeMapping.get(postId) && !liked) {
@@ -16,5 +17,6 @@ export const mockedApiCall = async (postId: number, liked: boolean) => {
     postLikeMapping.set(postId, liked);
     return true;
   }
+  console.log("API Failure");
   return false;
 };
