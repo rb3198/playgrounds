@@ -49,7 +49,7 @@ export const useLikes = (props: UseLikesHookProps) => {
         if (!execSuccess) {
           /* Pop the first item if the call was unsuccessful due to
             the alternate nature of our actions */
-          queueRef.current.pop();
+          queueRef.current.shift();
         }
         await processQueue();
       } else if (execSuccess) {
