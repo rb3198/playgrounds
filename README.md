@@ -1,3 +1,3 @@
-# playgrounds
+# React + TypeScript + Vite
 
-A collection of super-small projects across different languages and frameworks.
+A collection of small projects across different languages and frameworks. The website hosts demos of all the frontend projects.
