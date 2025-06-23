@@ -17,6 +17,9 @@ export const FadeLayer: React.FC<PropsWithChildren<FadeLayerProps>> = ({
     const normalizedX = (offset * Math.PI) / range;
     return Math.sin(normalizedX);
   }, [yBounds, yOffset]);
+  if (yOffset < yBounds[0] || yOffset > yBounds[1]) {
+    return null;
+  }
   return (
     <div className={`fixed inset-0`} style={{ opacity }}>
       {children}
