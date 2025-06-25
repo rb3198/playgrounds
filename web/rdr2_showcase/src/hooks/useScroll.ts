@@ -27,7 +27,7 @@ export const useScroll = () => {
       const eased = easeOutQuad(t);
 
       total += deltaY * eased;
-      entry.deltaY -= deltaY * eased;
+      entry.deltaY -= deltaY * eased ** 2;
       if (t < 1) remaining.push(entry);
     }
     const yOffset = yOffsetRef.current;
@@ -46,7 +46,7 @@ export const useScroll = () => {
   const onWheel: WheelEventHandler = (e) => {
     const { deltaY } = e;
     const entry: ScrollEntry = {
-      deltaY,
+      deltaY: Math.max(-15, Math.min(deltaY, 15)),
       start: performance.now(),
       duration: DURATION,
     };

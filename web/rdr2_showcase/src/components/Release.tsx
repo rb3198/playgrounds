@@ -1,17 +1,20 @@
 import React, { useId } from "react";
 import { FadeLayer, FadeLayerProps } from "./Layer";
 
-interface ReleaseProps extends FadeLayerProps {}
+interface ReleaseProps extends FadeLayerProps {
+  releaseLogoRef: React.RefObject<HTMLImageElement | null>;
+}
 
-export const Release: React.FC<ReleaseProps> = ({ yOffset, yBounds }) => {
+export const Release: React.FC<ReleaseProps> = ({
+  releaseLogoRef,
+  yOffset,
+  yBounds,
+}) => {
   const [yMin, yMax] = yBounds;
   const mid = (yMax - yMin) / 2;
   const offset = yOffset - yMin;
   const maskId = useId();
   const gradientId = useId();
-  if (yOffset < yMin || yOffset > yMax) {
-    return null;
-  }
   const whiteOffset = (Math.abs(mid - offset) * 100) / mid;
   const blackOffset = Math.max(0, whiteOffset - 15);
   return (
@@ -81,6 +84,7 @@ export const Release: React.FC<ReleaseProps> = ({ yOffset, yBounds }) => {
             h-full
             object-contain
           `}
+          ref={releaseLogoRef}
         />
         <div
           className={`

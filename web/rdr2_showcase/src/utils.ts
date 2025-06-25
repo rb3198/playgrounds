@@ -9,5 +9,5 @@ export const getSinWave = (yBounds: [number, number], yOffset: number) => {
   const offset = yOffset - yMin;
   const range = yMax - yMin;
   const wave = (offset * Math.PI) / range;
-  return wave;
+  return Math.sin(wave);
 };

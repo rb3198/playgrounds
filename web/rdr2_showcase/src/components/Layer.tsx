@@ -12,14 +12,14 @@ export const FadeLayer: React.FC<PropsWithChildren<FadeLayerProps>> = ({
 }) => {
   const opacity = useMemo(() => {
     const [yMin, yMax] = yBounds;
+    if (yOffset > yMax || yOffset < yMin) {
+      return 0;
+    }
     const range = yMax - yMin;
     const offset = yOffset - yMin;
     const normalizedX = (offset * Math.PI) / range;
     return Math.sin(normalizedX);
   }, [yBounds, yOffset]);
-  if (yOffset < yBounds[0] || yOffset > yBounds[1]) {
-    return null;
-  }
   return (
     <div className={`fixed inset-0`} style={{ opacity }}>
       {children}
