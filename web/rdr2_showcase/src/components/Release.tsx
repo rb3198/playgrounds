@@ -11,7 +11,8 @@ export const Release: React.FC<ReleaseProps> = ({
   yBounds,
 }) => {
   const [yMin, yMax] = yBounds;
-  const mid = (yMax - yMin) / 2;
+  const range = yMax - yMin;
+  const mid = range / 2;
   const offset = yOffset - yMin;
   const maskId = useId();
   const gradientId = useId();
@@ -26,7 +27,7 @@ export const Release: React.FC<ReleaseProps> = ({
             x1="0"
             y1={offset < mid ? 0 : 1}
             x2="0"
-            y2={offset < mid ? "1" : "0"}
+            y2={offset < mid ? 1 : 0}
           >
             <stop offset="0%" stopColor="black" />
             <stop offset={`${blackOffset}%`} stopColor="black" />
@@ -52,7 +53,10 @@ export const Release: React.FC<ReleaseProps> = ({
           </mask>
         </defs>
       </svg>
-
+      <div
+        className="absolute inset-0 bg-orange-950"
+        style={{ opacity: offset > mid && offset <= range ? 1 : 0 }}
+      />
       <div
         className={`
           grid

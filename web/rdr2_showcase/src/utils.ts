@@ -11,3 +11,7 @@ export const getSinWave = (yBounds: [number, number], yOffset: number) => {
   const wave = (offset * Math.PI) / range;
   return Math.sin(wave);
 };
+
+export const isWithinBounds = (yOffset: number, yBounds: [number, number]) => {
+  return yOffset >= yBounds[0] && yOffset <= yBounds[1];
+};

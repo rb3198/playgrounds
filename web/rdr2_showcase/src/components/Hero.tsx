@@ -64,6 +64,7 @@ export const Hero: React.FC<HeroProps> = ({
       style={{
         opacity: yOffset < yBounds[0] || yOffset > yBounds[1] + 1000 ? 0 : 1,
       }}
+      className="absolute inset-0 bg-orange-950"
     >
       <div
         className={`
@@ -146,7 +147,6 @@ export const Hero: React.FC<HeroProps> = ({
             </g>
           </mask>
         </defs>
-        <rect width={"100%"} height={"100%"} fill="transparent" mask={maskId} />
       </svg>
     </div>
   );
