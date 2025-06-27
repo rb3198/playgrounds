@@ -1,4 +1,11 @@
-import { useRef, useEffect, useState, WheelEventHandler } from "react";
+import {
+  useRef,
+  useEffect,
+  useState,
+  WheelEventHandler,
+  useCallback,
+} from "react";
+import { Subscribe, SubscriberFn, Unsubscribe } from "../types";
 
 const DURATION = 400; // ms
 const easeOutQuad = (t: number) => 1 - (1 - t) * (1 - t);
@@ -14,6 +21,7 @@ export const useScroll = () => {
   const yOffsetRef = useRef(0);
   const entriesRef = useRef<ScrollEntry[]>([]);
   const animationRef = useRef<number | null>(null);
+  const subscribers = useRef<SubscriberFn[]>([]);
 
   const animate = (timestamp: number) => {
     // Remove finished entries and compute total scroll offset
@@ -34,6 +42,9 @@ export const useScroll = () => {
     entriesRef.current = remaining;
     const newYOffset = Math.max(0, yOffset + total);
     setYOffset(newYOffset);
+    for (let subscriber of subscribers.current) {
+      subscriber(newYOffset);
+    }
     yOffsetRef.current = newYOffset;
 
     if (entriesRef.current.length > 0) {
@@ -56,13 +67,28 @@ export const useScroll = () => {
     }
   };
 
+  const subscribe = useCallback((cb: SubscriberFn) => {
+    subscribers.current.push(cb);
+  }, []);
+
+  const unsubscribe = useCallback((cb: SubscriberFn) => {
+    const idx = subscribers.current.findIndex((x) => x === cb);
+    subscribers.current.splice(idx, 1);
+  }, []);
+
   useEffect(() => {
     return () => {
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
       }
+      subscribers.current = [];
     };
   }, []);
 
-  return [yOffset, onWheel] as const;
+  return [
+    yOffset,
+    onWheel,
+    subscribe as Subscribe,
+    unsubscribe as Unsubscribe,
+  ] as const;
 };

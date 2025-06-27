@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, WheelEventHandler } from "react";
 import { Hero } from "./components/Hero";
 import { Release } from "./components/Release";
 import { useScroll } from "./hooks/useScroll";
@@ -7,10 +7,13 @@ import { Content } from "./components/content";
 type Props = {};
 
 const Rdr2App: React.FC = (props: Props) => {
-  const [yOffset, onWheel] = useScroll();
+  const [yOffset, onWheel, subscribe, unsubscribe] = useScroll();
   const releaseLogoRef = useRef<HTMLImageElement>(null);
+  const onWheelWrapper: WheelEventHandler = (e) => {
+    onWheel(e);
+  };
   return (
-    <div className="fixed inset-0" onWheel={onWheel}>
+    <div className="fixed inset-0" onWheel={onWheelWrapper}>
       <Hero
         yBounds={[-1000, 1000]}
         yOffset={yOffset}
@@ -21,7 +24,12 @@ const Rdr2App: React.FC = (props: Props) => {
         yOffset={yOffset}
         releaseLogoRef={releaseLogoRef}
       />
-      <Content yBounds={[3000, 27000]} yOffset={yOffset} />
+      <Content
+        yBounds={[3000, 27000]}
+        yOffset={yOffset}
+        subscribe={subscribe}
+        unsubscribe={unsubscribe}
+      />
     </div>
   );
 };
