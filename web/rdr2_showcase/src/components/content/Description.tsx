@@ -46,15 +46,17 @@ export const Description: React.FC<DescriptionProps> = ({
         </defs>
       </svg>
       <div
-        className="absolute inset-0 flex flex-col justify-center items-center p-24 z-20"
+        className="absolute inset-0 flex flex-col justify-center items-center p-8 md:p-16 xl:p-24 z-20"
         style={{
           maskImage: `url(#${maskId})`,
           WebkitMaskImage: `url(#${maskId})`,
         }}
       >
-        <div className="w-7/12 flex flex-col justify-center items-center gap-24">
-          <h1 className="text-6xl font-rdr text-white">The Wild West, 1899</h1>
-          <p className="text-xl text-justify text-amber-100">
+        <div className="w-full xl:w-7/12 flex flex-col justify-center items-center gap-12 md:gap-18 xl:gap-24">
+          <h1 className="text-3xl md:text-5xl xl:text-6xl font-rdr text-white">
+            The Wild West, 1899
+          </h1>
+          <p className="text-sm md:text-lg xl:text-xl text-justify text-amber-100">
             Arthur Morgan and the Van der Linde gang have always lived by their
             own rules on the frontier, robbing and stealing their way across the
             American heartland. But as civilization closes in and the age of
