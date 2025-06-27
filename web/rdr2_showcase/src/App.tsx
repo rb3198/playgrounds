@@ -6,14 +6,18 @@ import { Content } from "./components/content";
 
 type Props = {};
 
+const END_OFFSET = 12000;
 const Rdr2App: React.FC = (props: Props) => {
-  const [yOffset, onWheel, subscribe, unsubscribe] = useScroll();
+  const [yOffset, onWheel, onTouchStart, onTouchMove, subscribe, unsubscribe] =
+    useScroll(END_OFFSET);
   const releaseLogoRef = useRef<HTMLImageElement>(null);
-  const onWheelWrapper: WheelEventHandler = (e) => {
-    onWheel(e);
-  };
   return (
-    <div className="fixed inset-0" onWheel={onWheelWrapper}>
+    <div
+      className="fixed inset-0 touch-none"
+      onWheel={onWheel}
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+    >
       <Hero
         yBounds={[-1000, 1000]}
         yOffset={yOffset}
@@ -25,7 +29,7 @@ const Rdr2App: React.FC = (props: Props) => {
         releaseLogoRef={releaseLogoRef}
       />
       <Content
-        yBounds={[3000, 27000]}
+        yBounds={[3000, END_OFFSET]}
         yOffset={yOffset}
         subscribe={subscribe}
         unsubscribe={unsubscribe}

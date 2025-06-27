@@ -4,6 +4,7 @@ import {
   useState,
   WheelEventHandler,
   useCallback,
+  TouchEventHandler,
 } from "react";
 import { Subscribe, SubscriberFn, Unsubscribe } from "../types";
 
@@ -16,12 +17,13 @@ interface ScrollEntry {
   duration: number; // always DURATION
 }
 
-export const useScroll = () => {
+export const useScroll = (endOffset: number) => {
   const [yOffset, setYOffset] = useState(0);
   const yOffsetRef = useRef(0);
   const entriesRef = useRef<ScrollEntry[]>([]);
   const animationRef = useRef<number | null>(null);
   const subscribers = useRef<SubscriberFn[]>([]);
+  const touchStartY = useRef<number | null>(null);
 
   const animate = (timestamp: number) => {
     // Remove finished entries and compute total scroll offset
@@ -40,12 +42,12 @@ export const useScroll = () => {
     }
     const yOffset = yOffsetRef.current;
     entriesRef.current = remaining;
-    const newYOffset = Math.max(0, yOffset + total);
+    const newYOffset = Math.max(0, Math.min(yOffset + total, endOffset));
     setYOffset(newYOffset);
+    yOffsetRef.current = newYOffset;
     for (let subscriber of subscribers.current) {
       subscriber(newYOffset);
     }
-    yOffsetRef.current = newYOffset;
 
     if (entriesRef.current.length > 0) {
       animationRef.current = requestAnimationFrame(animate);
@@ -65,6 +67,33 @@ export const useScroll = () => {
     if (!animationRef.current) {
       animationRef.current = requestAnimationFrame(animate);
     }
+  };
+
+  const onTouchStart: TouchEventHandler = (e) => {
+    if (e.touches.length === 1) {
+      touchStartY.current = e.touches[0].clientY;
+    }
+  };
+
+  const onTouchMove: TouchEventHandler = (e) => {
+    if (touchStartY.current === null) return;
+
+    const currentY = e.touches[0].clientY;
+    const delta = touchStartY.current - currentY; // positive = scroll down
+
+    const clamped = Math.max(-15, Math.min(delta * 5, 15));
+
+    entriesRef.current.push({
+      deltaY: clamped,
+      start: performance.now(),
+      duration: DURATION,
+    });
+
+    if (!animationRef.current) {
+      animationRef.current = requestAnimationFrame(animate);
+    }
+
+    touchStartY.current = currentY;
   };
 
   const subscribe = useCallback((cb: SubscriberFn) => {
@@ -88,6 +117,8 @@ export const useScroll = () => {
   return [
     yOffset,
     onWheel,
+    onTouchStart,
+    onTouchMove,
     subscribe as Subscribe,
     unsubscribe as Unsubscribe,
   ] as const;
