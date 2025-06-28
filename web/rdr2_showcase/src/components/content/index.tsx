@@ -4,6 +4,7 @@ import { Description } from "./Description";
 import { ScrollVideo } from "../ScrollVideo";
 import { Subscribe, Unsubscribe } from "../../types";
 import { getArthurVideoByViewport, isWithinBounds } from "../../utils";
+import { ArthurSlides } from "./ArthurSlides";
 
 interface ContentProps extends FadeLayerProps {
   subscribe: Subscribe;
@@ -29,7 +30,11 @@ export const Content: React.FC<ContentProps> = ({
   const descriptionBounds = [0, 4 * unit] as [number, number]; // 4 parts for description
   // 2 (semi-transparent 2 -> 4) + 6 (fully visible 4 -> 10) + 2 (semi-transparent 10 -> 12) parts for arthur intro video
   const introVideoBounds = useMemo(
-    () => [4 * unit, 5 * unit] as [number, number],
+    () => [4 * unit, 8 * unit] as [number, number],
+    [unit]
+  );
+  const arthurSlidesBounds = useMemo(
+    () => [6 * unit, 24 * unit] as [number, number],
     [unit]
   );
   const descriptionMid = (descriptionBounds[0] + descriptionBounds[1]) / 2;
@@ -98,6 +103,14 @@ export const Content: React.FC<ContentProps> = ({
         canvasClasses="absolute inset-0 z-0 h-full w-full"
         videoAddress={arthurIntroVideoSrc}
         unsubscribe={unsubscribe}
+      />
+      <ArthurSlides
+        yOffset={offset}
+        yBounds={arthurSlidesBounds}
+        subscribe={subscribe}
+        unsubscribe={unsubscribe}
+        canvasWidth={canvasDims.width}
+        canvasHeight={canvasDims.height}
       />
     </div>
   );

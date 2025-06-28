@@ -6,7 +6,7 @@ import { Content } from "./components/content";
 
 type Props = {};
 
-const END_OFFSET = 12000;
+const END_OFFSET = 24000;
 const Rdr2App: React.FC = (props: Props) => {
   const [yOffset, onWheel, onTouchStart, onTouchMove, subscribe, unsubscribe] =
     useScroll(END_OFFSET);
