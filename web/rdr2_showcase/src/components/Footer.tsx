@@ -27,7 +27,20 @@ const Footer: React.FC<FooterProps> = ({ yBounds, yOffset }) => {
   };
   return (
     <div
-      className="text-white flex flex-col absolute inset-0 justify-center items-center text-xl p-4 md:p-8 gap-4 z-30"
+      className={`
+        text-white 
+        flex 
+        flex-col 
+        absolute 
+        inset-0 
+        justify-center 
+        items-center 
+        text-xl 
+        p-4 
+        md:p-8 
+        gap-4 
+        ${offset > 0 ? `z-30` : "-z-10"}
+      `}
       style={{ opacity }}
     >
       <ul className="list-none flex flex-col gap-8">
