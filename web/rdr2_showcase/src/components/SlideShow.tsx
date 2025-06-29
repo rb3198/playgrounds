@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { FadeLayerProps } from "./Layer";
-import { isWithinBounds } from "../utils";
 
 interface SlideShowProps extends FadeLayerProps {
   title: string;

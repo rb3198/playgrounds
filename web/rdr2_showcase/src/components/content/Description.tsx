@@ -1,6 +1,5 @@
 import React, { useId } from "react";
 import { FadeLayerProps } from "../Layer";
-import { getSinWave } from "../../utils";
 
 interface DescriptionProps extends FadeLayerProps {}
 

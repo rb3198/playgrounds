@@ -1,13 +1,11 @@
-import React, { useRef, WheelEventHandler } from "react";
+import React, { useRef } from "react";
 import { Hero } from "./components/Hero";
 import { Release } from "./components/Release";
 import { useScroll } from "./hooks/useScroll";
 import { Content } from "./components/content";
 
-type Props = {};
-
 const END_OFFSET = 24000;
-const Rdr2App: React.FC = (props: Props) => {
+const Rdr2App: React.FC = () => {
   const [yOffset, onWheel, onTouchStart, onTouchMove, subscribe, unsubscribe] =
     useScroll(END_OFFSET);
   const releaseLogoRef = useRef<HTMLImageElement>(null);

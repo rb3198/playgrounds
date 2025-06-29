@@ -1,5 +1,5 @@
 import React from "react";
-import { FadeLayerProps } from "./Layer";
+import type { FadeLayerProps } from "./Layer";
 import {
   FFMPEG,
   HAILUO_AI,

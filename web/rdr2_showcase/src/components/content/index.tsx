@@ -1,4 +1,4 @@
-import React, { useEffect, useId, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { FadeLayerProps } from "./../Layer";
 import { Description } from "./Description";
 import { ScrollVideo } from "../ScrollVideo";

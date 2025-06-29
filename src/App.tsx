@@ -2,7 +2,7 @@ import { createBrowserRouter, RouterProvider } from "react-router";
 import { Layout } from "./Layout";
 import { lazy, Suspense } from "react";
 
-const LazyRdr2 = lazy(() => import("@web/rdr2_showcase/App.tsx"));
+const LazyRdr2 = lazy(() => import("@web/rdr2_showcase/App"));
 
 const browserRouter = createBrowserRouter([
   {

@@ -1,5 +1,5 @@
 import React, { useId } from "react";
-import { FadeLayer, FadeLayerProps } from "./Layer";
+import { FadeLayerProps } from "./Layer";
 
 interface ReleaseProps extends FadeLayerProps {
   releaseLogoRef: React.RefObject<HTMLImageElement | null>;
