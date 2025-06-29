@@ -4,6 +4,7 @@ import { SlideShow } from "../SlideShow";
 import { isWithinBounds } from "../../utils";
 import { ScrollVideo } from "../ScrollVideo";
 import { Subscribe, Unsubscribe } from "../../types";
+import Footer from "../Footer";
 
 interface ArthurSlidesProps extends FadeLayerProps {
   subscribe: Subscribe;
@@ -42,9 +43,9 @@ export const ArthurSlides: React.FC<ArthurSlidesProps> = ({
     if (offset < 0) {
       return 0;
     }
-    const badSlideShowMid = 3 * unit;
-    if (offset <= badSlideShowMid) {
-      return Math.sin((offset * Math.PI) / (2 * badSlideShowMid));
+    const badSlideShowMid = (badSlideshowBounds[0] + badSlideshowBounds[1]) / 2;
+    if (offset <= 0.6 * badSlideShowMid) {
+      return Math.sin((offset * Math.PI) / (1.2 * badSlideShowMid));
     }
     const [intervalMin, intervalMax] = intervalBounds;
     if (isWithinBounds(offset, intervalBounds)) {
@@ -67,7 +68,7 @@ export const ArthurSlides: React.FC<ArthurSlidesProps> = ({
     if (offset >= closingMin) {
       if (offset <= closingMid) {
         const newOffset = offset - closingMin;
-        const range = closingMax - closingMin;
+        const range = closingMid - closingMin;
         return Math.cos((newOffset * Math.PI) / (2 * range));
       } else {
         return 0;
@@ -131,6 +132,8 @@ export const ArthurSlides: React.FC<ArthurSlidesProps> = ({
         yBounds={[19500, 24000]}
         visible={isWithinBounds(offset, closingBounds)}
       />
+      {/* Footer */}
+      <Footer yOffset={offset} yBounds={footerBounds} />
     </div>
   );
 };

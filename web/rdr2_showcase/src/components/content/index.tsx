@@ -30,7 +30,7 @@ export const Content: React.FC<ContentProps> = ({
   const descriptionBounds = [0, 4 * unit] as [number, number]; // 4 parts for description
   // 2 (semi-transparent 2 -> 4) + 6 (fully visible 4 -> 10) + 2 (semi-transparent 10 -> 12) parts for arthur intro video
   const introVideoBounds = useMemo(
-    () => [4 * unit, 8 * unit] as [number, number],
+    () => [4 * unit, 12 * unit] as [number, number],
     [unit]
   );
   const arthurSlidesBounds = useMemo(
